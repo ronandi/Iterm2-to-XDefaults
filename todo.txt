@@ -1,0 +1,7 @@
+Finish program
+Try on argonaut theme
+
+Notes:
+- Conversion of color values looks as simple as multiplying by 255
+  and then converting to hex.
+
