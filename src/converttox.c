@@ -60,20 +60,20 @@ void parseFile(FILE * inputfile) {
                     sprintf(prefix, "*color%s", colornum);
                 }
                 else if(strcmp(s, "Background") == 0) {
-                    sprintf(prefix, "background");
+                    sprintf(prefix, "*background");
                 }
                 else if(strcmp(s, "Foreground") == 0) {
-                    sprintf(prefix,"foreground");
+                    sprintf(prefix,"*foreground");
                 }
                 else if (strcmp(s, "Bold") == 0) {
-                    sprintf(prefix,"colorBD");
+                    sprintf(prefix,"*colorBD");
                 }
                 else if(strcmp(s, "Cursor") == 0) {
                     s = strtok(NULL, delim);
                     if (strcmp(s, "Color") == 0)
-                        sprintf(prefix, "cursorColor");
+                        sprintf(prefix, "*cursorColor");
                     else if (strcmp(s, "Text") == 0)
-                        sprintf(prefix, "cursorColor2");
+                        sprintf(prefix, "*cursorColor2");
                 }
                 else {
                     continue;
@@ -95,8 +95,10 @@ int main(int argc, char ** argv) {
         perror(NULL);
         exit(-1);
     }
-
+    
+    printf("Paste the following in your XDefaults/Xresources file after commenting out old values.\n\n");
     parseFile(inputfile);
+    printf("\n");
     fclose(inputfile);
     return 0;
 }
