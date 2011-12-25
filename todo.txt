@@ -1,9 +1,1 @@
-Finish program
-Try on argonaut theme
-
-Notes:
-X supports colors given in RGBI standard, which uses floating point numbers from 0.0 to 1.0f
-    No conversion is needed if this is used.
-X Conversion of color values looks as simple as multiplying by 255
-  and then converting to hex.
-
+Output directly to Xdefaults instead of copy/paste?

@@ -1,0 +1,10 @@
+A simple C program to output Xdefaults compatible color text from an iterm theme.
+Output can simply be copy-pasted to your Xdefaults/Xresources file
+Fist compile:
+make
+Usage:
+./itox <iterm .itermcolors file>
+Notes:
+itox - iterm to xdefaults
+X supports colors given in RGBI standard, which uses floating point numbers from 0.0 to 1.0f
+    No conversion is needed if this is used.
