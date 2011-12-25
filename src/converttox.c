@@ -15,7 +15,7 @@ void printUsage(char * name) {
     printf("Usage: %s <iterm file to convert>\n", name);
 }
 
-void parseNumColor(int colornum, FILE * inputfile) {
+void parseColor(char * prefix, FILE * inputfile) {
     char linebuf[128];
     long double r, g, b;
     fgets(linebuf, sizeof(linebuf), inputfile);     //should be <dict> line. throw out
@@ -41,7 +41,7 @@ void parseNumColor(int colornum, FILE * inputfile) {
             r = strtold(s, NULL);
         }
     }
-    printf("*color%d: rgbi:%1.17Lf/%1.17Lf/%1.17Lf\n", colornum, r, g, b);
+    printf("%s: rgbi:%1.17Lf/%1.17Lf/%1.17Lf\n", prefix, r, g, b);
 }
 
 /* Process input itermcolors file */
@@ -53,12 +53,32 @@ void parseFile(FILE * inputfile) {
             delim = "\t<>/ ";
             strtok(linebuf, delim);             //First strok should be the tag name. We can skip
             while(s = strtok(NULL, delim), s != NULL) {
+                char prefix[15];
                 if(strcmp(s, "Ansi") == 0) {     //We have found one of the numbered ANSI colors
-                    int colornum;
-                    colornum = atoi(strtok(NULL, delim));
-                    parseNumColor(colornum, inputfile);
+                    char * colornum;
+                    colornum = strtok(NULL, delim);
+                    sprintf(prefix, "*color%s", colornum);
                 }
-                //TODO: Handle Background, Foreground, Cursor...
+                else if(strcmp(s, "Background") == 0) {
+                    sprintf(prefix, "background");
+                }
+                else if(strcmp(s, "Foreground") == 0) {
+                    sprintf(prefix,"foreground");
+                }
+                else if (strcmp(s, "Bold") == 0) {
+                    sprintf(prefix,"colorBD");
+                }
+                else if(strcmp(s, "Cursor") == 0) {
+                    s = strtok(NULL, delim);
+                    if (strcmp(s, "Color") == 0)
+                        sprintf(prefix, "cursorColor");
+                    else if (strcmp(s, "Text") == 0)
+                        sprintf(prefix, "cursorColor2");
+                }
+                else {
+                    continue;
+                }
+                parseColor(prefix, inputfile);
             }
         }
     }
